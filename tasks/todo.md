@@ -18,7 +18,8 @@
 | 競合 8 プロジェクトに CI/SARIF 特化の決定版なし | VERIFIED | DESIGN.md §3 の調査(2026-07-10) |
 
 ## Phase 0: 準備
-- [ ] GitHub リポジトリ作成(public)・npm 0.0.1 publish — verify: `npm view agentslint version`
+- [x] GitHub リポジトリ作成(public)— 済(github.com/toshi0607/agentslint、タグ v0.0.1、2026-07-10)
+- [ ] npm 0.0.1 publish — ブロック中(ローカル npm 未ログイン。`npm login` 後に `npm publish` で prepublishOnly がテストを強制)— verify: `npm view agentslint version`
 - [x] CLAUDE.md / AGENTS.md 実サンプルを fixtures 化 — 済(fixtures/valid・broken・regression。broken で 6 errors/3 warnings/1 info)
 
 ## Phase 1: MVP(ルール AL001–AL005)
@@ -28,8 +29,8 @@
 - [x] pretty / JSON / SARIF 出力・終了コード — 済(broken fixture exit 1 / valid exit 0 / 実リポジトリ 2 ファイル走査 0 件 exit 0)
 
 ## Phase 2: CI 統合
-- [ ] SARIF を GitHub code scanning に取り込んで表示確認
-- [ ] action.yml — verify: 自リポジトリの PR にアノテーションが付く
+- [x] SARIF を GitHub code scanning に取り込んで表示確認 — 済(analyses API で tool=agentslint, results 0 を確認、2026-07-10)
+- [x] action.yml — 済(CI の self-lint ジョブが `uses: ./` で success。PR 上のアノテーション表示は最初の PR で確認予定)
 - [ ] 自分のアクティブリポジトリ 5 つに導入 — verify: 各リポジトリの CI green
 
 ## Phase 3: 公開
