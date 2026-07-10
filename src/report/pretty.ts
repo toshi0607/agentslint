@@ -30,7 +30,7 @@ export function formatPretty(findings: Finding[], filesScanned: number, useColor
   const lines: string[] = [];
 
   if (findings.length === 0) {
-    lines.push(paint("findings は 0 件です", ANSI.bold, useColor));
+    lines.push(paint("No findings", ANSI.bold, useColor));
   } else {
     const byFile = new Map<string, Finding[]>();
     for (const finding of findings) {

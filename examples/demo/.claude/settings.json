@@ -1,0 +1,8 @@
+{
+  "permission": {
+    "allow": ["Bash(npm run:*)"]
+  },
+  "env": {
+    "NODE_ENV": "development"
+  }
+}

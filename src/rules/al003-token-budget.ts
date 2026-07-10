@@ -56,7 +56,7 @@ export const al003: Rule = {
         severity: config.severity,
         file: file.relPath,
         line: 1,
-        message: `概算トークン数が予算を超過しています(概算 約${estimated} トークン、予算 ${budget} トークン。近似値であり正確なトークン数ではありません)`,
+        message: `Estimated token count exceeds the budget (~${estimated} tokens vs budget ${budget}; this is an approximation, not an exact count)`,
       },
     ];
   },

@@ -1,22 +1,32 @@
 # agentslint
 
-AI コーディングエージェントの設定ファイル(`AGENTS.md` / `CLAUDE.md` / `.claude/` 一式)を CI で検証するリンター。
-A CI linter for AI coding agent config files.
+[![CI](https://github.com/toshi0607/agentslint/actions/workflows/ci.yml/badge.svg)](https://github.com/toshi0607/agentslint/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/%40toshi0607%2Fagentslint)](https://www.npmjs.com/package/@toshi0607/agentslint)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-壊れた参照パス、存在しないコマンド、肥大化したコンテキスト、不正な skill frontmatter を、コードレビューと同じ場所(PR)で検出します。
+A CI linter for AI coding agent config files — `AGENTS.md`, `CLAUDE.md`, and the `.claude/` directory.
 
-## 使い方
+Agent config rots silently. Docs get moved, scripts get renamed, skills get malformed — and your agent quietly gets worse while burning tokens on instructions that no longer match reality. agentslint catches that in the same place you catch every other regression: CI.
+
+![agentslint demo](docs/demo.svg)
+
+Reproduce this locally with the intentionally broken demo project:
+
+```bash
+git clone https://github.com/toshi0607/agentslint && cd agentslint/examples/demo
+npx @toshi0607/agentslint
+```
+
+## Quick start
 
 ### CLI
 
 ```bash
-npx @toshi0607/agentslint                 # カレントディレクトリ以下を検証
+npx @toshi0607/agentslint                 # lint the current directory
 npx @toshi0607/agentslint --format json   # pretty | json | sarif | github
 ```
 
-グローバルインストール(`npm i -g @toshi0607/agentslint`)後のコマンド名は `agentslint` です。
-
-終了コード: error の指摘があれば 1、なければ 0(CI にそのまま組み込めます)。
+Exit code is 1 if any `error`-severity finding exists, 0 otherwise — drop it straight into CI. After a global install (`npm i -g @toshi0607/agentslint`) the command is just `agentslint`.
 
 ### GitHub Action
 
@@ -29,8 +39,9 @@ jobs:
       - uses: toshi0607/agentslint@v0.0.1
 ```
 
-指摘は PR の Files changed 上にインラインアノテーションとして表示されます。
-GitHub code scanning に取り込む場合:
+Findings show up as inline annotations on the PR's Files changed tab.
+
+### Code scanning (SARIF)
 
 ```yaml
     permissions:
@@ -47,21 +58,21 @@ GitHub code scanning に取り込む場合:
           sarif_file: agentslint.sarif
 ```
 
-## ルール
+## Rules
 
-| ID | 名前 | 内容 | 既定 |
+| ID | Name | What it catches | Default |
 |---|---|---|---|
-| AL001 | broken-file-reference | リンク・`@import` の参照先ファイルが存在しない | error |
-| AL002 | stale-command | 記載コマンドが package.json scripts / Makefile / justfile に存在しない | warn |
-| AL003 | token-budget | 概算トークン数が閾値超過(既定 4,000。近似値) | warn |
-| AL004 | skill-frontmatter | SKILL.md の frontmatter 検証 | error |
-| AL005 | settings-schema | .claude/settings.json の検証 | error |
+| AL001 | broken-file-reference | Relative links and CLAUDE.md `@import`s pointing at files that don't exist | error |
+| AL002 | stale-command | Documented commands missing from package.json scripts / Makefile / justfile | warn |
+| AL003 | token-budget | Files whose estimated token count exceeds a budget (default 4,000; approximate) | warn |
+| AL004 | skill-frontmatter | Invalid SKILL.md frontmatter (name format/length, missing description) | error |
+| AL005 | settings-schema | Invalid `.claude/settings.json` (JSON validity, known-key types, unknown keys) | error |
 
-誤検知を出すくらいなら検知しない、がこのリンターの方針です。AL006〜AL008(secret-pattern / boilerplate / duplicate-heading)は計画中([DESIGN.md](DESIGN.md) 参照)。
+Planned: AL006 secret-pattern, AL007 boilerplate, AL008 duplicate-heading — see [DESIGN.md](DESIGN.md).
 
-## 設定
+## Configuration
 
-`.agentslintrc.json`(任意):
+`.agentslintrc.json` (optional):
 
 ```json
 {
@@ -73,11 +84,15 @@ GitHub code scanning に取り込む場合:
 }
 ```
 
-## ドキュメント
+## Philosophy: zero false positives
 
-- 設計: [DESIGN.md](DESIGN.md)
-- 実装計画: [tasks/todo.md](tasks/todo.md)
+A linter earns trust by never crying wolf, so agentslint under-matches by design: code fences are skipped, commands are only matched at command position (not inside comments or strings), and `@scope/package` in prose is never treated as an import. If a check can't be confident, it stays silent.
+
+## Docs
+
+- [README 日本語版](README.ja.md)
+- [Design doc](DESIGN.md) (Japanese)
 
 ## License
 
-MIT
+[MIT](LICENSE)

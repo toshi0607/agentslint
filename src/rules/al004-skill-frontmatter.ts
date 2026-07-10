@@ -24,7 +24,7 @@ export const al004: Rule = {
 
     const fm = file.frontmatter;
     if (!fm || !fm.present) {
-      return [makeFinding(severity, file.relPath, 1, "frontmatter(先頭の --- ... ---)が見つかりません")];
+      return [makeFinding(severity, file.relPath, 1, "Missing frontmatter (leading --- ... --- block)")];
     }
     if (fm.error) {
       return [
@@ -32,7 +32,7 @@ export const al004: Rule = {
           severity,
           file.relPath,
           1,
-          `frontmatter の YAML パースに失敗しました: ${fm.error.message}`,
+          `Failed to parse frontmatter YAML: ${fm.error.message}`,
         ),
       ];
     }
@@ -46,14 +46,14 @@ export const al004: Rule = {
     // name
     const nameRaw = data["name"];
     if (nameRaw === undefined || nameRaw === null || nameRaw === "") {
-      findings.push(makeFinding(severity, file.relPath, line, "frontmatter に name が必須です"));
+      findings.push(makeFinding(severity, file.relPath, line, 'frontmatter "name" is required'));
     } else if (typeof nameRaw !== "string") {
       findings.push(
         makeFinding(
           severity,
           file.relPath,
           line,
-          `frontmatter の name は文字列である必要があります(実際の型: ${typeof nameRaw})`,
+          `frontmatter "name" must be a string (got: ${typeof nameRaw})`,
         ),
       );
     } else {
@@ -64,7 +64,7 @@ export const al004: Rule = {
             severity,
             file.relPath,
             line,
-            `frontmatter の name "${name}" は ^[a-z0-9]+(-[a-z0-9]+)*$ 形式である必要があります`,
+            `frontmatter "name" ("${name}") must match ^[a-z0-9]+(-[a-z0-9]+)*$`,
           ),
         );
       }
@@ -74,7 +74,7 @@ export const al004: Rule = {
             severity,
             file.relPath,
             line,
-            `frontmatter の name が ${NAME_MAX_LENGTH} 文字を超えています(${name.length} 文字)`,
+            `frontmatter "name" exceeds ${NAME_MAX_LENGTH} characters (${name.length})`,
           ),
         );
       }
@@ -85,7 +85,7 @@ export const al004: Rule = {
             "warn",
             file.relPath,
             line,
-            `frontmatter の name "${name}" が親ディレクトリ名 "${parentDirName}" と一致しません`,
+            `frontmatter "name" ("${name}") does not match the parent directory name ("${parentDirName}")`,
           ),
         );
       }
@@ -94,18 +94,18 @@ export const al004: Rule = {
     // description
     const descRaw = data["description"];
     if (descRaw === undefined || descRaw === null) {
-      findings.push(makeFinding(severity, file.relPath, line, "frontmatter に description が必須です"));
+      findings.push(makeFinding(severity, file.relPath, line, 'frontmatter "description" is required'));
     } else if (typeof descRaw !== "string") {
       findings.push(
         makeFinding(
           severity,
           file.relPath,
           line,
-          `frontmatter の description は文字列である必要があります(実際の型: ${typeof descRaw})`,
+          `frontmatter "description" must be a string (got: ${typeof descRaw})`,
         ),
       );
     } else if (descRaw.trim() === "") {
-      findings.push(makeFinding(severity, file.relPath, line, "frontmatter に description が必須です"));
+      findings.push(makeFinding(severity, file.relPath, line, 'frontmatter "description" is required'));
     } else {
       const description = descRaw;
       if (description.length > DESCRIPTION_MAX_LENGTH) {
@@ -114,7 +114,7 @@ export const al004: Rule = {
             severity,
             file.relPath,
             line,
-            `frontmatter の description が ${DESCRIPTION_MAX_LENGTH} 文字を超えています(${description.length} 文字)`,
+            `frontmatter "description" exceeds ${DESCRIPTION_MAX_LENGTH} characters (${description.length})`,
           ),
         );
       }

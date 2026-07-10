@@ -33,19 +33,19 @@ export const al005: Rule = {
       parsed = JSON.parse(file.content);
     } catch (err) {
       return [
-        makeFinding(severity, file.relPath, 1, `JSON のパースに失敗しました: ${(err as Error).message}`),
+        makeFinding(severity, file.relPath, 1, `Failed to parse JSON: ${(err as Error).message}`),
       ];
     }
 
     if (!isPlainObject(parsed)) {
-      return [makeFinding(severity, file.relPath, 1, "settings.json はオブジェクトである必要があります")];
+      return [makeFinding(severity, file.relPath, 1, "settings.json must be a JSON object")];
     }
 
     // permissions: object でその中の allow/deny/ask は string 配列
     if ("permissions" in parsed) {
       const permissions = parsed["permissions"];
       if (!isPlainObject(permissions)) {
-        findings.push(makeFinding(severity, file.relPath, 1, "permissions はオブジェクトである必要があります"));
+        findings.push(makeFinding(severity, file.relPath, 1, "permissions must be an object"));
       } else {
         for (const key of PERMISSION_LIST_KEYS) {
           if (key in permissions && !isStringArray(permissions[key])) {
@@ -54,7 +54,7 @@ export const al005: Rule = {
                 severity,
                 file.relPath,
                 1,
-                `permissions.${key} は文字列配列である必要があります`,
+                `permissions.${key} must be an array of strings`,
               ),
             );
           }
@@ -66,7 +66,7 @@ export const al005: Rule = {
     if ("env" in parsed) {
       const env = parsed["env"];
       if (!isPlainObject(env)) {
-        findings.push(makeFinding(severity, file.relPath, 1, "env はオブジェクトである必要があります"));
+        findings.push(makeFinding(severity, file.relPath, 1, "env must be an object"));
       } else {
         const nonStringKeys = Object.entries(env)
           .filter(([, value]) => typeof value !== "string")
@@ -77,7 +77,7 @@ export const al005: Rule = {
               severity,
               file.relPath,
               1,
-              `env の値は全て string である必要があります(違反キー: ${nonStringKeys.join(", ")})`,
+              `env values must all be strings (offending keys: ${nonStringKeys.join(", ")})`,
             ),
           );
         }
@@ -87,14 +87,14 @@ export const al005: Rule = {
     // model: string
     if ("model" in parsed) {
       if (typeof parsed["model"] !== "string") {
-        findings.push(makeFinding(severity, file.relPath, 1, "model は文字列である必要があります"));
+        findings.push(makeFinding(severity, file.relPath, 1, "model must be a string"));
       }
     }
 
     // hooks: object
     if ("hooks" in parsed) {
       if (!isPlainObject(parsed["hooks"])) {
-        findings.push(makeFinding(severity, file.relPath, 1, "hooks はオブジェクトである必要があります"));
+        findings.push(makeFinding(severity, file.relPath, 1, "hooks must be an object"));
       }
     }
 
@@ -106,7 +106,7 @@ export const al005: Rule = {
             "info",
             file.relPath,
             1,
-            `未知のトップレベルキー "${key}" です(新しいバージョンのキーかもしれません)`,
+            `Unknown top-level key "${key}" (it may be from a newer version)`,
           ),
         );
       }

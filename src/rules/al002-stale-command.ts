@@ -205,7 +205,7 @@ export const al002: Rule = {
             severity,
             file: file.relPath,
             line: cmd.line,
-            message: `"${cmd.kind} run ${cmd.target}" は package.json の scripts に見つかりません`,
+            message: `"${cmd.kind} run ${cmd.target}" is not in package.json scripts`,
           });
         }
         continue;
@@ -223,7 +223,7 @@ export const al002: Rule = {
             severity,
             file: file.relPath,
             line: cmd.line,
-            message: `"make ${cmd.target}" が参照されていますが、Makefile がリポジトリ内に見つかりません`,
+            message: `"make ${cmd.target}" is referenced but no Makefile exists in the repository`,
           });
           continue;
         }
@@ -234,7 +234,7 @@ export const al002: Rule = {
             severity,
             file: file.relPath,
             line: cmd.line,
-            message: `"make ${cmd.target}" は Makefile のターゲットに見つかりません`,
+            message: `"make ${cmd.target}" is not a Makefile target`,
           });
         }
         continue;
@@ -252,7 +252,7 @@ export const al002: Rule = {
           severity,
           file: file.relPath,
           line: cmd.line,
-          message: `"just ${cmd.target}" が参照されていますが、justfile がリポジトリ内に見つかりません`,
+          message: `"just ${cmd.target}" is referenced but no justfile exists in the repository`,
         });
         continue;
       }
@@ -263,7 +263,7 @@ export const al002: Rule = {
           severity,
           file: file.relPath,
           line: cmd.line,
-          message: `"just ${cmd.target}" は justfile のレシピに見つかりません`,
+          message: `"just ${cmd.target}" is not a justfile recipe`,
         });
       }
     }

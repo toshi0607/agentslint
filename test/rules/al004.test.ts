@@ -33,7 +33,7 @@ describe("AL004 skill-frontmatter", () => {
       "skill",
     );
     const findings = al004.check(makeRuleContext(file));
-    const mismatch = findings.find((f) => f.message.includes("親ディレクトリ名"));
+    const mismatch = findings.find((f) => f.message.includes("parent directory"));
     expect(mismatch).toBeDefined();
     expect(mismatch?.severity).toBe("warn");
   });
@@ -64,6 +64,6 @@ describe("AL004 skill-frontmatter", () => {
     const findings = al004.check(makeRuleContext(badYamlFile));
     expect(findings).toHaveLength(1);
     expect(findings[0]?.severity).toBe("error");
-    expect(findings[0]?.message).toContain("パース");
+    expect(findings[0]?.message).toContain("parse");
   });
 });

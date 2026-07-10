@@ -41,7 +41,7 @@ describe("integration: discover -> lint -> format", () => {
   it("valid fixture: pretty format reports zero findings and exit code 0", async () => {
     const result = await runCli([], VALID_FIXTURE_DIR);
     expect(result.exitCode).toBe(0);
-    expect(result.stdout).toContain("findings は 0 件です");
+    expect(result.stdout).toContain("No findings");
     expect(result.stdout).toContain("0 errors, 0 warnings, 0 info");
   });
 
@@ -104,7 +104,7 @@ describe("integration: discover -> lint -> format", () => {
   it("reports 'no target files' on stderr with exit 0 when nothing is found", async () => {
     const result = await runCli([], path.join(REPO_ROOT, "fixtures", "valid", "docs"));
     expect(result.exitCode).toBe(0);
-    expect(result.stderr).toContain("対象ファイルなし");
+    expect(result.stderr).toContain("No target files found");
   });
 
   it("exits 2 on a broken --config file", async () => {

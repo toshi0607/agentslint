@@ -31,7 +31,7 @@ describe("AL003 token-budget", () => {
     expect(findings.length).toBeGreaterThanOrEqual(1);
     expect(findings[0]?.ruleId).toBe("AL003");
     expect(findings[0]?.severity).toBe("warn");
-    expect(findings[0]?.message).toMatch(/近似/);
+    expect(findings[0]?.message).toMatch(/approximation/);
   });
 
   it("respects options.budget override", async () => {

@@ -14,6 +14,7 @@ AI コーディングエージェント設定ファイル(AGENTS.md / CLAUDE.md 
 - [src/rules/](src/rules/) — ルール実装(1 ルール 1 ファイル、`Rule` 契約)
 - [src/report/](src/report/) — pretty / json / sarif / github の各フォーマッタ
 - [fixtures/](fixtures/) — テストデータ。`broken/` と `regression/` は意図的に壊れたファイルを含む
+- [examples/demo/](examples/demo/) — README 用のデモプロジェクト(意図的に壊れている。self-lint では ignore)
 - [DESIGN.md](DESIGN.md) — 設計ドキュメント
 
 ## 規約

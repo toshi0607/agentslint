@@ -34,11 +34,13 @@
 - [ ] 自分のアクティブリポジトリ 5 つに導入 — verify: 各リポジトリの CI green
 
 ## Phase 3: 公開
-- [ ] README 英語化・docs/rules/ 8 ページ(日英)— verify: 自分自身で lint してリンク切れなし
+- [x] README 英語化(README.md=EN、README.ja.md=JA)+ CLI メッセージ英語化 + examples/demo と docs/demo.svg — 済(2026-07-10、npm test 39/39・self-lint 0 件)
+- [ ] docs/rules/ 8 ページ(日英)— verify: 自分自身で lint してリンク切れなし
 - [ ] good first issue 10 本 + ルール提案テンプレート — verify: issue 数
 - [ ] Zenn 記事公開・X 告知 — verify: 記事 URL
 
 ## Notes
+- 2026-07-10: CLI の全メッセージを英語化(国際公開が前提のため。診断メッセージの i18n 機構は入れず英語単一言語)。ドキュメントは README.md=EN / README.ja.md=JA の 2 本立て
 - vitest は ^3 に固定(vitest 4 系の rolldown ネイティブバインディングが Node 22.3.0 の engines 制約で npm に silently skip され MODULE_NOT_FOUND になるため)
 - `.agentslintrc.json` の ignore は cwd 基準で適用(ESLint と同じ挙動)。リポジトリ自身の self-lint では fixtures/ を除外
 - @import 検出は「左境界(行頭 or 空白)+ doc 系拡張子 + プレフィックスなし複数セグメントは先頭ディレクトリ実在時のみ」に制限(誤検知ゼロ優先の意図的アンダーマッチ)

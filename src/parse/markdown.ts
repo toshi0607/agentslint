@@ -162,7 +162,7 @@ export function parseFrontmatter(content: string): FrontmatterResult {
       return {
         present: true,
         blockLineCount,
-        error: new Error("frontmatter は YAML マッピング(key: value)である必要があります"),
+        error: new Error("frontmatter must be a YAML mapping (key: value)"),
       };
     }
     return { present: true, data: data as Record<string, unknown>, blockLineCount };

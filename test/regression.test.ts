@@ -95,7 +95,7 @@ describe("regression: review findings", () => {
       );
       const file = await loadFileContext(skillPath, ".claude/skills/type-check/SKILL.md", "skill");
       const findings = al004.check(makeRuleContext(file));
-      const typeErrors = findings.filter((f) => f.message.includes("文字列である必要があります"));
+      const typeErrors = findings.filter((f) => f.message.includes("must be a string"));
       expect(typeErrors).toHaveLength(2);
       expect(typeErrors.every((f) => f.severity === "error")).toBe(true);
     });

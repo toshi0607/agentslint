@@ -23,7 +23,7 @@ export async function loadConfig(cwd: string, explicitPath?: string): Promise<Ag
     raw = await readFile(configPath, "utf8");
   } catch (err) {
     if (explicitPath) {
-      throw new ConfigError(`設定ファイルが読み込めません: ${configPath} (${(err as Error).message})`);
+      throw new ConfigError(`Cannot read config file: ${configPath} (${(err as Error).message})`);
     }
     return {};
   }
@@ -32,11 +32,11 @@ export async function loadConfig(cwd: string, explicitPath?: string): Promise<Ag
   try {
     parsed = JSON.parse(raw);
   } catch (err) {
-    throw new ConfigError(`設定ファイルの JSON が不正です: ${configPath} (${(err as Error).message})`);
+    throw new ConfigError(`Invalid JSON in config file: ${configPath} (${(err as Error).message})`);
   }
 
   if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
-    throw new ConfigError(`設定ファイルはオブジェクトである必要があります: ${configPath}`);
+    throw new ConfigError(`Config file must be a JSON object: ${configPath}`);
   }
 
   return parsed as AgentslintConfig;

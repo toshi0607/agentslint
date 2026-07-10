@@ -89,7 +89,7 @@ export const al001: Rule = {
             severity,
             file: file.relPath,
             line: link.line,
-            message: `リンク先ファイルが見つかりません: ${link.url}`,
+            message: `Linked file not found: ${link.url}`,
           });
         }
       }
@@ -113,7 +113,7 @@ export const al001: Rule = {
             severity,
             file: file.relPath,
             line: token.line,
-            message: `@import 先ファイルが見つかりません: ${token.raw}`,
+            message: `@import target not found: ${token.raw}`,
           });
         }
       }

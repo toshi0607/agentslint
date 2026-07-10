@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="360" viewBox="0 0 800 360" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14">
+  <rect x="1" y="1" width="798" height="358" rx="10" fill="#0d1117" stroke="#30363d"/>
+  <circle cx="24" cy="22" r="6" fill="#ff5f56"/>
+  <circle cx="44" cy="22" r="6" fill="#ffbd2e"/>
+  <circle cx="64" cy="22" r="6" fill="#27c93f"/>
+  <text x="400" y="27" fill="#8b949e" font-size="12" text-anchor="middle">agentslint — examples/demo</text>
+  <g fill="#c9d1d9">
+    <text x="24" y="66"><tspan fill="#7ee787">$</tspan> npx @toshi0607/agentslint</text>
+    <text x="24" y="108" fill="#e6edf3" font-weight="bold">.claude/settings.json</text>
+    <text x="40" y="129">1:<tspan fill="#79c0ff">info</tspan> <tspan fill="#8b949e">AL005</tspan> Unknown top-level key "permission" (it may be from a newer version)</text>
+    <text x="24" y="171" fill="#e6edf3" font-weight="bold">.claude/skills/deploy-checklist/SKILL.md</text>
+    <text x="40" y="192">1:<tspan fill="#ff7b72">error</tspan> <tspan fill="#8b949e">AL004</tspan> frontmatter "description" is required</text>
+    <text x="24" y="234" fill="#e6edf3" font-weight="bold">CLAUDE.md</text>
+    <text x="40" y="255">10:<tspan fill="#ff7b72">error</tspan> <tspan fill="#8b949e">AL001</tspan> Linked file not found: ./docs/style-guide.md</text>
+    <text x="40" y="276">15:<tspan fill="#e3b341">warn</tspan> <tspan fill="#8b949e">AL002</tspan> "npm run typecheck" is not in package.json scripts</text>
+    <text x="24" y="318"><tspan fill="#ff7b72">2 errors</tspan>, <tspan fill="#e3b341">1 warnings</tspan>, <tspan fill="#79c0ff">1 info</tspan> / 3 files scanned</text>
+  </g>
+</svg>

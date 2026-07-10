@@ -34,7 +34,7 @@ function parseArgs(argv: string[]): ParsedArgs {
       const value = argv[i + 1];
       if (value !== "pretty" && value !== "json" && value !== "sarif" && value !== "github") {
         throw new CliUsageError(
-          `--format は pretty|json|sarif|github のいずれかである必要があります: ${value ?? "(未指定)"}`,
+          `--format must be one of pretty|json|sarif|github (got: ${value ?? "nothing"})`,
         );
       }
       format = value;
@@ -44,7 +44,7 @@ function parseArgs(argv: string[]): ParsedArgs {
     if (arg === "--config") {
       const value = argv[i + 1];
       if (value === undefined) {
-        throw new CliUsageError("--config には値が必要です");
+        throw new CliUsageError("--config requires a value");
       }
       configPath = value;
       i += 1;
@@ -117,7 +117,7 @@ async function main(): Promise<number> {
   if (afterIgnore.length === 0) {
     if (args.format === "pretty") {
       process.stderr.write(
-        "対象ファイルなし。AGENTS.md / CLAUDE.md / .claude/ を探索したが見つからなかった\n",
+        "No target files found (searched for AGENTS.md / CLAUDE.md / .claude/).\n",
       );
       return 0;
     }
@@ -177,6 +177,6 @@ main()
     process.exitCode = code;
   })
   .catch((err: unknown) => {
-    process.stderr.write(`内部エラー: ${err instanceof Error ? err.message : String(err)}\n`);
+    process.stderr.write(`Internal error: ${err instanceof Error ? err.message : String(err)}\n`);
     process.exitCode = 2;
   });
