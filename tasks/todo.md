@@ -19,7 +19,7 @@
 
 ## Phase 0: 準備
 - [x] GitHub リポジトリ作成(public)— 済(github.com/toshi0607/agentslint、タグ v0.0.1、2026-07-10)
-- [ ] npm 0.0.1 publish — ブロック中(ローカル npm 未ログイン。`npm login` 後に `npm publish` で prepublishOnly がテストを強制)— verify: `npm view agentslint version`
+- [x] npm 0.0.1 publish — 済(@toshi0607/agentslint@0.0.1。`npm view` で 0.0.1、`npx -y @toshi0607/agentslint` の実行確認済み、2026-07-10)
 - [x] CLAUDE.md / AGENTS.md 実サンプルを fixtures 化 — 済(fixtures/valid・broken・regression。broken で 6 errors/3 warnings/1 info)
 
 ## Phase 1: MVP(ルール AL001–AL005)
