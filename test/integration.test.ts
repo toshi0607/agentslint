@@ -92,7 +92,7 @@ describe("integration: discover -> lint -> format", () => {
     };
     expect(parsed.version).toBe("2.1.0");
     expect(parsed.runs[0]?.tool.driver.name).toBe("agentslint");
-    expect(parsed.runs[0]?.tool.driver.rules.length).toBe(5);
+    expect(parsed.runs[0]?.tool.driver.rules.length).toBe(6);
     expect(parsed.runs[0]?.results.length).toBeGreaterThan(0);
     const firstResult = parsed.runs[0]?.results[0];
     expect(firstResult?.ruleId).toMatch(/^AL00[1-5]$/);
@@ -115,5 +115,26 @@ describe("integration: discover -> lint -> format", () => {
   it("exits 2 on an invalid --format value", async () => {
     const result = await runCli(["--format", "yaml"], VALID_FIXTURE_DIR);
     expect(result.exitCode).toBe(2);
+  });
+});
+
+describe("integration: CLI flags", () => {
+  it("--help prints usage and exits 0", async () => {
+    const result = await runCli(["--help"], REPO_ROOT);
+    expect(result.exitCode).toBe(0);
+    expect(result.stdout).toContain("Usage: agentslint");
+    expect(result.stdout).toContain("--format");
+  });
+
+  it("--version prints the package version and exits 0", async () => {
+    const result = await runCli(["--version"], REPO_ROOT);
+    expect(result.exitCode).toBe(0);
+    expect(result.stdout.trim()).toMatch(/^\d+\.\d+\.\d+$/);
+  });
+
+  it("unknown option exits 2 with a usage error", async () => {
+    const result = await runCli(["--nope"], REPO_ROOT);
+    expect(result.exitCode).toBe(2);
+    expect(result.stderr).toContain("Unknown option: --nope");
   });
 });

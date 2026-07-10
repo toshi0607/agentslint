@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { readFile } from "node:fs/promises";
+import { createRequire } from "node:module";
 import path from "node:path";
 import process from "node:process";
 import { discover, resolveRepoRoot } from "./discover.js";
@@ -19,17 +20,47 @@ interface ParsedArgs {
   paths: string[];
   format: OutputFormat;
   configPath?: string;
+  help: boolean;
+  version: boolean;
 }
 
 class CliUsageError extends Error {}
+
+const USAGE = `agentslint — CI linter for AI coding agent config files (AGENTS.md, CLAUDE.md, .claude/)
+
+Usage: agentslint [paths...] [options]
+
+Options:
+  --format <pretty|json|sarif|github>  Output format (default: pretty)
+  --config <path>                      Path to .agentslintrc.json
+  -h, --help                           Show this help
+  -v, --version                        Show version
+
+Exit codes: 0 = no error findings, 1 = error findings, 2 = usage/config error
+Docs: https://github.com/toshi0607/agentslint`;
+
+function packageVersion(): string {
+  const pkg = createRequire(import.meta.url)("../package.json") as { version: string };
+  return pkg.version;
+}
 
 function parseArgs(argv: string[]): ParsedArgs {
   const paths: string[] = [];
   let format: OutputFormat = "pretty";
   let configPath: string | undefined;
+  let help = false;
+  let version = false;
 
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i];
+    if (arg === "--help" || arg === "-h") {
+      help = true;
+      continue;
+    }
+    if (arg === "--version" || arg === "-v") {
+      version = true;
+      continue;
+    }
     if (arg === "--format") {
       const value = argv[i + 1];
       if (value !== "pretty" && value !== "json" && value !== "sarif" && value !== "github") {
@@ -51,11 +82,14 @@ function parseArgs(argv: string[]): ParsedArgs {
       continue;
     }
     if (arg !== undefined) {
+      if (arg.startsWith("-")) {
+        throw new CliUsageError(`Unknown option: ${arg} (see --help)`);
+      }
       paths.push(arg);
     }
   }
 
-  return { paths, format, configPath };
+  return { paths, format, configPath, help, version };
 }
 
 /** ファイルを読み込み、種別に応じて FileContext を組み立てる。 */
@@ -84,6 +118,15 @@ async function main(): Promise<number> {
       return 2;
     }
     throw err;
+  }
+
+  if (args.help) {
+    process.stdout.write(`${USAGE}\n`);
+    return 0;
+  }
+  if (args.version) {
+    process.stdout.write(`${packageVersion()}\n`);
+    return 0;
   }
 
   let config;

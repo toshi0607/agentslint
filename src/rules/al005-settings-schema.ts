@@ -1,9 +1,10 @@
 import type { Finding, Rule, RuleContext, Severity } from "../types.js";
+import { KNOWN_SETTINGS_KEYS } from "./claude-settings-keys.js";
 
 const RULE_ID = "AL005";
 const RULE_NAME = "settings-schema";
 
-const KNOWN_TOP_LEVEL_KEYS = new Set(["permissions", "env", "model", "hooks"]);
+const KNOWN_TOP_LEVEL_KEYS = new Set(KNOWN_SETTINGS_KEYS);
 const PERMISSION_LIST_KEYS = ["allow", "deny", "ask"] as const;
 
 function makeFinding(severity: Severity, relPath: string, line: number, message: string): Finding {

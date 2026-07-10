@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: toshi0607/agentslint@v0.0.1
+      - uses: toshi0607/agentslint@v0.0.2
 ```
 
 Findings show up as inline annotations on the PR's Files changed tab.
@@ -49,7 +49,7 @@ Findings show up as inline annotations on the PR's Files changed tab.
       security-events: write
     steps:
       - uses: actions/checkout@v4
-      - uses: toshi0607/agentslint@v0.0.1
+      - uses: toshi0607/agentslint@v0.0.2
         with:
           sarif-file: agentslint.sarif
       - uses: github/codeql-action/upload-sarif@v3
@@ -67,8 +67,9 @@ Findings show up as inline annotations on the PR's Files changed tab.
 | AL003 | token-budget | Files whose estimated token count exceeds a budget (default 4,000; approximate) | warn |
 | AL004 | skill-frontmatter | Invalid SKILL.md frontmatter (name format/length, missing description) | error |
 | AL005 | settings-schema | Invalid `.claude/settings.json` (JSON validity, known-key types, unknown keys) | error |
+| AL006 | secret-pattern | Likely credentials (API keys, tokens, private key blocks) committed in agent config files | error |
 
-Planned: AL006 secret-pattern, AL007 boilerplate, AL008 duplicate-heading — see [DESIGN.md](DESIGN.md).
+Planned: AL007 boilerplate, AL008 duplicate-heading — see [DESIGN.md](DESIGN.md).
 
 ## Configuration
 

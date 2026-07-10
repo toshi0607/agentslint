@@ -35,4 +35,8 @@ runs:
         if [ -n "${{ inputs.sarif-file }}" ]; then
           node "${{ github.action_path }}/dist/cli.js" --format sarif "${ARGS[@]}" > "${{ inputs.sarif-file }}" || true
         fi
+        if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
+          node "${{ github.action_path }}/dist/cli.js" --format json "${ARGS[@]}" > "${RUNNER_TEMP}/agentslint-report.json" || true
+          node "${{ github.action_path }}/scripts/summary.mjs" "${RUNNER_TEMP}/agentslint-report.json"
+        fi
         node "${{ github.action_path }}/dist/cli.js" --format github "${ARGS[@]}"

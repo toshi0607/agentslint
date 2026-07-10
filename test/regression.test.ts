@@ -123,3 +123,27 @@ describe("regression: review findings", () => {
     });
   });
 });
+
+describe("AL005: real-world settings keys must not be flagged as unknown", () => {
+  it("accepts official schema keys without any finding", async () => {
+    const { al005 } = await import("../src/rules/al005-settings-schema.js");
+    const content = JSON.stringify({
+      $schema: "https://www.schemastore.org/claude-code-settings.json",
+      model: "claude-sonnet-5",
+      includeCoAuthoredBy: false,
+      cleanupPeriodDays: 30,
+      statusLine: { type: "command", command: "echo hi" },
+      permissions: { allow: ["Bash(npm run:*)"] },
+      env: { NODE_ENV: "test" },
+      enableAllProjectMcpServers: true,
+    });
+    const file = {
+      kind: "settings" as const,
+      relPath: ".claude/settings.json",
+      absPath: "/tmp/x/.claude/settings.json",
+      content,
+    };
+    const findings = al005.check(makeRuleContext(file));
+    expect(findings).toHaveLength(0);
+  });
+});

@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: toshi0607/agentslint@v0.0.1
+      - uses: toshi0607/agentslint@v0.0.2
 ```
 
 指摘は PR の Files changed 上にインラインアノテーションとして表示されます。SARIF での code scanning 連携は [README.md](README.md#code-scanning-sarif) を参照してください。
@@ -46,8 +46,9 @@ jobs:
 | AL003 | token-budget | 概算トークン数が閾値超過(既定 4,000。近似値) | warn |
 | AL004 | skill-frontmatter | SKILL.md の frontmatter 検証 | error |
 | AL005 | settings-schema | .claude/settings.json の検証 | error |
+| AL006 | secret-pattern | API キー・トークン・秘密鍵ブロックらしき文字列の混入 | error |
 
-AL006〜AL008(secret-pattern / boilerplate / duplicate-heading)は計画中([DESIGN.md](DESIGN.md) 参照)。
+AL007〜AL008(boilerplate / duplicate-heading)は計画中([DESIGN.md](DESIGN.md) 参照)。
 
 ## 設定
 

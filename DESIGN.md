@@ -61,7 +61,7 @@ CLI(npm)と GitHub Action の 2 形態で配布し、「チームのリポジト
 | AL007 | boilerplate | 生成テンプレのまま中身がない(プレースホルダ文言の残存) | warn |
 | AL008 | duplicate-heading | AGENTS.md と CLAUDE.md の同一見出し重複(矛盾ガイダンスの入口検知)。v1 は見出し一致まで | info |
 
-MVP は AL001–AL005 を実装し、AL006–AL008 は v1.1 で追加する。
+AL001–AL006 は実装済み(AL006 は 0.0.2 で追加)。AL007–AL008 は今後追加する。
 
 ルール実装の契約(プラグイン機構):
 
