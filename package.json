@@ -1,6 +1,9 @@
 {
-  "name": "agentslint",
+  "name": "@toshi0607/agentslint",
   "version": "0.0.1",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "description": "CI linter for AI coding agent config files (AGENTS.md, CLAUDE.md, .claude/)",
   "license": "MIT",

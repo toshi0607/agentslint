@@ -4,7 +4,7 @@
 
 | Constraint | Source | Verify by |
 |---|---|---|
-| npm 名は `agentslint`(公開時に 0.0.1 確保) | DESIGN.md §9 | `npm view agentslint` |
+| npm 名は `@toshi0607/agentslint`(bin 名は agentslint) | DESIGN.md §9 | `npm view @toshi0607/agentslint` |
 | 依存最小(remark / yaml 以外は要議論) | DESIGN.md §6 | package.json diff |
 | v1 に --fix・生成機能を入れない | DESIGN.md §4 | スコープレビュー |
 | 誤検知を出すくらいなら検知しない | DESIGN.md §5 | fixture テスト(valid で findings 0) |
@@ -13,7 +13,7 @@
 
 | Assumption | Status | Evidence |
 |---|---|---|
-| npm `agentslint` が空き | VERIFIED | registry 404(2026-07-10) |
+| npm `agentslint` が空き | 反証済み | registry は 404 だったが publish 時に類似名保護(agents-lint)で 403。404 チェックは十分条件でないと判明 → @toshi0607/agentslint に変更(2026-07-10) |
 | GitHub に同名リポジトリなし | VERIFIED | gh api search 404(2026-07-10) |
 | 競合 8 プロジェクトに CI/SARIF 特化の決定版なし | VERIFIED | DESIGN.md §3 の調査(2026-07-10) |
 

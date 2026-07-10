@@ -123,6 +123,5 @@ action.yml         # Action は cli の薄いラッパ
 
 ## 9. 命名
 
-- npm: `agentslint` — 空きを確認済み(2026-07-10、404)
-- GitHub: `toshi0607/agentslint` — 同名リポジトリなし(2026-07-10 確認)
-- 公開時に最初に npm へ 0.0.1 を publish して名前を確保する(中身のあるスケルトンで。空スクワットはしない)
+- npm: `@toshi0607/agentslint` — 無印の `agentslint` は 404 だったが、publish 時に npm の類似名保護(`agents-lint` と衝突)で 403 となったためスコープ付きに変更(2026-07-10)。bin 名は `agentslint` のまま
+- GitHub: `toshi0607/agentslint`。GitHub Action はソースから実行する composite のため npm 名の影響なし

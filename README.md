@@ -10,9 +10,11 @@ A CI linter for AI coding agent config files.
 ### CLI
 
 ```bash
-npx agentslint                 # カレントディレクトリ以下を検証
-npx agentslint --format json   # pretty | json | sarif | github
+npx @toshi0607/agentslint                 # カレントディレクトリ以下を検証
+npx @toshi0607/agentslint --format json   # pretty | json | sarif | github
 ```
+
+グローバルインストール(`npm i -g @toshi0607/agentslint`)後のコマンド名は `agentslint` です。
 
 終了コード: error の指摘があれば 1、なければ 0(CI にそのまま組み込めます)。
 
