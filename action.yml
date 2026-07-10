@@ -1,0 +1,38 @@
+name: "agentslint"
+description: "Lint AI coding agent config files (AGENTS.md / CLAUDE.md / .claude/) in CI"
+branding:
+  icon: "check-square"
+  color: "purple"
+inputs:
+  path:
+    description: "Lint 対象ディレクトリ(ワークスペースからの相対パス)"
+    required: false
+    default: "."
+  config:
+    description: ".agentslintrc.json のパス(path からの相対)"
+    required: false
+    default: ""
+  sarif-file:
+    description: "指定すると SARIF レポートもこのパスに書き出す(github/codeql-action/upload-sarif 用)"
+    required: false
+    default: ""
+runs:
+  using: "composite"
+  steps:
+    - name: Set up agentslint
+      shell: bash
+      run: |
+        npm ci --prefix "${{ github.action_path }}" --no-audit --no-fund
+        npm run build --prefix "${{ github.action_path }}"
+    - name: Run agentslint
+      shell: bash
+      working-directory: ${{ inputs.path }}
+      run: |
+        ARGS=()
+        if [ -n "${{ inputs.config }}" ]; then
+          ARGS+=(--config "${{ inputs.config }}")
+        fi
+        if [ -n "${{ inputs.sarif-file }}" ]; then
+          node "${{ github.action_path }}/dist/cli.js" --format sarif "${ARGS[@]}" > "${{ inputs.sarif-file }}" || true
+        fi
+        node "${{ github.action_path }}/dist/cli.js" --format github "${ARGS[@]}"

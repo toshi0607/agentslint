@@ -2,8 +2,28 @@
   "name": "agentslint",
   "version": "0.0.1",
   "type": "module",
-  "description": "AI コーディングエージェント設定ファイル(AGENTS.md / CLAUDE.md / .claude/)を CI で検証するリンター",
+  "description": "CI linter for AI coding agent config files (AGENTS.md, CLAUDE.md, .claude/)",
   "license": "MIT",
+  "author": "toshi0607",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toshi0607/agentslint.git"
+  },
+  "homepage": "https://github.com/toshi0607/agentslint#readme",
+  "bugs": {
+    "url": "https://github.com/toshi0607/agentslint/issues"
+  },
+  "keywords": [
+    "lint",
+    "linter",
+    "agents.md",
+    "claude-code",
+    "claude",
+    "codex",
+    "ai-agents",
+    "ci",
+    "sarif"
+  ],
   "engines": {
     "node": ">=20"
   },
@@ -16,7 +36,8 @@
   "scripts": {
     "build": "tsc",
     "pretest": "npm run build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepublishOnly": "npm test"
   },
   "dependencies": {
     "unified": "^11.0.5",

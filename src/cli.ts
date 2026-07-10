@@ -10,9 +10,10 @@ import { rules } from "./rules/index.js";
 import { formatPretty } from "./report/pretty.js";
 import { formatJson } from "./report/json.js";
 import { formatSarif } from "./report/sarif.js";
+import { formatGithub } from "./report/github.js";
 import type { FileContext, FileKind, Finding } from "./types.js";
 
-type OutputFormat = "pretty" | "json" | "sarif";
+type OutputFormat = "pretty" | "json" | "sarif" | "github";
 
 interface ParsedArgs {
   paths: string[];
@@ -31,8 +32,10 @@ function parseArgs(argv: string[]): ParsedArgs {
     const arg = argv[i];
     if (arg === "--format") {
       const value = argv[i + 1];
-      if (value !== "pretty" && value !== "json" && value !== "sarif") {
-        throw new CliUsageError(`--format は pretty|json|sarif のいずれかである必要があります: ${value ?? "(未指定)"}`);
+      if (value !== "pretty" && value !== "json" && value !== "sarif" && value !== "github") {
+        throw new CliUsageError(
+          `--format は pretty|json|sarif|github のいずれかである必要があります: ${value ?? "(未指定)"}`,
+        );
       }
       format = value;
       i += 1;
@@ -122,6 +125,10 @@ async function main(): Promise<number> {
       process.stdout.write(`${formatJson([], 0)}\n`);
       return 0;
     }
+    if (args.format === "github") {
+      process.stdout.write(`${formatGithub([], 0)}\n`);
+      return 0;
+    }
     process.stdout.write(`${formatSarif([])}\n`);
     return 0;
   }
@@ -154,6 +161,8 @@ async function main(): Promise<number> {
     process.stdout.write(`${formatJson(allFindings, filesScanned)}\n`);
   } else if (args.format === "sarif") {
     process.stdout.write(`${formatSarif(allFindings)}\n`);
+  } else if (args.format === "github") {
+    process.stdout.write(`${formatGithub(allFindings, filesScanned)}\n`);
   } else {
     const useColor = process.stdout.isTTY === true;
     process.stdout.write(`${formatPretty(allFindings, filesScanned, useColor)}\n`);
