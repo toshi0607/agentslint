@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": ["Bash(npm run *)"],
+    "deny": [],
+    "ask": ["Bash(git push*)"]
+  },
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "model": "claude-sonnet",
+  "hooks": {}
+}

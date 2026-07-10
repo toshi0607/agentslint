@@ -1,0 +1,31 @@
+{
+  "name": "agentslint",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "AI コーディングエージェント設定ファイル(AGENTS.md / CLAUDE.md / .claude/)を CI で検証するリンター",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "agentslint": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "pretest": "npm run build",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "unified": "^11.0.5",
+    "remark-parse": "^11.0.0",
+    "yaml": "^2.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "typescript": "^7.0.2",
+    "vitest": "^3.2.7"
+  }
+}

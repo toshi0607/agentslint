@@ -2,7 +2,7 @@
 
 AI コーディングエージェントの設定ファイル(`AGENTS.md` / `CLAUDE.md` / `.claude/` 一式)を CI で検証するリンター。
 
-**ステータス: 設計フェーズ**(実装未着手)
+**ステータス: MVP 実装済み**(未公開・公開準備中)
 
 - 設計: [DESIGN.md](DESIGN.md)
 - 実装計画: [tasks/todo.md](tasks/todo.md)

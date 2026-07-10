@@ -19,13 +19,13 @@
 
 ## Phase 0: 準備
 - [ ] GitHub リポジトリ作成(public)・npm 0.0.1 publish — verify: `npm view agentslint version`
-- [ ] CLAUDE.md / AGENTS.md 実サンプルを fixtures 化 — verify: fixtures で意図した findings が出る
+- [x] CLAUDE.md / AGENTS.md 実サンプルを fixtures 化 — 済(fixtures/valid・broken・regression。broken で 6 errors/3 warnings/1 info)
 
 ## Phase 1: MVP(ルール AL001–AL005)
-- [ ] discover + markdown parse + @import 解決 — verify: `npm test` green
-- [ ] AL001 broken-file-reference(valid fixture で誤検知ゼロ)— verify: fixture テスト
-- [ ] AL002 stale-command / AL003 token-budget / AL004 skill-frontmatter / AL005 settings-schema — verify: 各 fixture テスト
-- [ ] pretty / JSON / SARIF 出力・終了コード — verify: broken fixture で exit 1
+- [x] discover + markdown parse + @import 解決 — 済(npm test 37/37 pass、2026-07-10)
+- [x] AL001 broken-file-reference(valid fixture で誤検知ゼロ)— 済(fixture テスト + %エンコード/scoped package/参照スタイルリンクの回帰テスト)
+- [x] AL002 stale-command / AL003 token-budget / AL004 skill-frontmatter / AL005 settings-schema — 済(各 fixture テスト。AL002 はコマンド位置のみマッチ)
+- [x] pretty / JSON / SARIF 出力・終了コード — 済(broken fixture exit 1 / valid exit 0 / 実リポジトリ 2 ファイル走査 0 件 exit 0)
 
 ## Phase 2: CI 統合
 - [ ] SARIF を GitHub code scanning に取り込んで表示確認
@@ -38,7 +38,19 @@
 - [ ] Zenn 記事公開・X 告知 — verify: 記事 URL
 
 ## Notes
-(実装中の判断・逸脱をここに記録)
+- vitest は ^3 に固定(vitest 4 系の rolldown ネイティブバインディングが Node 22.3.0 の engines 制約で npm に silently skip され MODULE_NOT_FOUND になるため)
+- `.agentslintrc.json` の ignore は cwd 基準で適用(ESLint と同じ挙動)。リポジトリ自身の self-lint では fixtures/ を除外
+- @import 検出は「左境界(行頭 or 空白)+ doc 系拡張子 + プレフィックスなし複数セグメントは先頭ディレクトリ実在時のみ」に制限(誤検知ゼロ優先の意図的アンダーマッチ)
 
 ## Review
-(レビュー結果をここに記録)
+2026-07-10 フレッシュコンテキストレビュー(設計準拠 + 誤検知観点)の結果と対応:
+- H1 %エンコードリンクの誤検知 → decodeURIComponent 併用で解消(回帰テストあり)
+- H2 散文中の @scope/pkg・中間 @ の誤検知 → 左境界 + 拡張子 allowlist + 先頭ディレクトリ実在ゲートで解消(回帰テストあり)
+- M1 シェルコメント・文字列内コマンドの誤検知 → コマンド位置のみマッチに変更(回帰テストあり)
+- M2 ignore glob の ReDoS(`**/` 8 連で約 86 秒)→ セグメント単位 DP マッチャーに置換(回帰テストあり)
+- M3 stale dist で統合テストが走る → pretest で build を強制
+- L1 非文字列 name/description の素通り → typeof 検査 + 専用エラー
+- L2 ハングル・CJK 拡張 A がトークン概算から漏れ → 範囲追加
+- L3 参照スタイルリンク未チェック → definition ノードも収集
+- L4 README のステータス陳腐化 → 更新
+最終状態: npm test 37/37 pass(回帰 9 件含む)
