@@ -28,7 +28,7 @@
     "sarif"
   ],
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "bin": {
     "agentslint": "dist/cli.js"
